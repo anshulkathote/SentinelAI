@@ -42,6 +42,8 @@ def main():
         if not ret:
             break
 
+        alert.add_frame(frame)
+        
         frame_count += 1
 
         if frame_count % FRAME_SKIP == 0:
