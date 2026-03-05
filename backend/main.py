@@ -35,6 +35,7 @@ app.add_middleware(
 
 # Serve alert snapshots as static files
 app.mount("/snapshots", StaticFiles(directory="snapshots"), name="snapshots")
+app.mount("/clips", StaticFiles(directory="snapshots/clips"), name="clips")
 
 # Routers
 app.include_router(health.router)

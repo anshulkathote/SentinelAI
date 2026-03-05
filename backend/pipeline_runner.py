@@ -58,6 +58,7 @@ def run_pipeline(loop: asyncio.AbstractEventLoop):
             cap.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
             continue
 
+        alert.add_frame(frame)
         frame_count       += 1
         state.total_frames = frame_count
 
