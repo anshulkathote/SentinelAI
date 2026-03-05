@@ -181,7 +181,7 @@ class PoseAnalyzer:
         if len(history) >= 10:
             recent_wrists = [s["wrist_y"] for s in history[-10:]]
             wrist_variance = np.var(recent_wrists)
-            if wrist_variance > 800:
+            if wrist_variance > 1200:
                 return "aggression"
 
         # --- RUNNING: high vertical hip movement ---

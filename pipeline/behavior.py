@@ -60,7 +60,7 @@ class BehaviorAnalyzer:
             behaviors = []
 
             # --- Loitering: in frame > 30 seconds ---
-            if duration > 30:
+            if duration > 60:
                 behaviors.append("loitering")
 
             # --- Restricted zone check ---
