@@ -72,3 +72,106 @@ class RiskEngine:
             })
 
         return scored
+
+
+# # pipeline/risk_engine.py
+
+# import time
+# from pipeline.alert import AlertHandler
+
+
+# # Behavior risk scores
+# BEHAVIOR_SCORES = {
+#     "loitering": 30,
+#     "rapid_movement": 40,
+#     "in_restricted_zone": 50,
+#     "aggression": 60,
+#     "climbing": 55,
+#     "crouching": 35,
+#     "fallen": 45,
+#     "running": 20,
+# }
+
+# TIME_MULTIPLIER_NIGHT = 1.3
+# ALERT_THRESHOLD = 60
+
+
+# class RiskEngine:
+
+#     def __init__(self, threshold=ALERT_THRESHOLD):
+
+#         self.threshold = threshold
+#         self.alert_cooldown = {}
+#         self.COOLDOWN_SECONDS = 30
+
+#         # initialize alert handler
+#         self.alert_handler = AlertHandler()
+
+#     def _is_night(self):
+
+#         hour = time.localtime().tm_hour
+#         return hour >= 22 or hour < 6
+
+#     def score(self, behavior_results):
+
+#         """
+#         Returns scored tracks.
+#         """
+
+#         now = time.time()
+#         scored_tracks = []
+
+#         for result in behavior_results:
+
+#             track_id = result["track_id"]
+#             behaviors = result["behaviors"]
+#             duration = result["duration"]
+
+#             risk = 0
+
+#             # behavior score
+#             for behavior in behaviors:
+#                 for key, score in BEHAVIOR_SCORES.items():
+#                     if behavior.startswith(key):
+#                         risk += score
+
+#             # duration bonus
+#             if duration > 120:
+#                 risk += 20
+
+#             # night multiplier
+#             if self._is_night():
+#                 risk = int(risk * TIME_MULTIPLIER_NIGHT)
+
+#             # cap risk
+#             risk = min(risk, 100)
+
+#             should_alert = False
+
+#             if risk >= self.threshold:
+
+#                 last_alert = self.alert_cooldown.get(track_id, 0)
+
+#                 if now - last_alert > self.COOLDOWN_SECONDS:
+
+#                     should_alert = True
+#                     self.alert_cooldown[track_id] = now
+
+#                     # Send WhatsApp alert
+#                     self.alert_handler.send(
+#                         track_id=track_id,
+#                         risk_score=risk,
+#                         behaviors=behaviors
+#                     )
+
+#             scored_tracks.append({
+
+#                 "track_id": track_id,
+#                 "risk_score": risk,
+#                 "alert": should_alert,
+#                 "behaviors": behaviors,
+#                 "duration": duration
+
+#             })
+
+#         return scored_tracks
